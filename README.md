@@ -1,4 +1,4 @@
-# Simple NodeJS/JS/CSS Pendulum Simulation
+# Simple NodeJS/CSS Pendulum Simulation
 In the scope of obtaining an internship at Vention in Summer 2023, I was challenged to make a simple nodeJS REST API + pure JS/CSS user interface which can simulate 5 pendulums swinging, with variables that can be adjusted by the user (length, weight, etc.).
 
 Antoine Dangeard
