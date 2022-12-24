@@ -56,26 +56,28 @@
                             <input type="range" name="weight" id="weight" value=50>
                             <span id="max">50</span>
                         </div>
-                        <div class="timescale-select">
-                            <label for="timescale">Simulation Time Scale:</label>
-                            <span class="sub-label" id="timescale-value">1.0</span>
-                            <br>
-                            <span id="min">0.5</span>
-                            <input type="range" name="time" id="time" value=50>
-                            <span id="max">2</span>
-                        </div>
                         
                         <div class="start-angle-select">
-                            <label for="angle">Angle:</label>
+                            <label for="angle">Starting Angle:</label>
                             <span class="sub-label" id="angle-value">0.0</span>
                             <br>
                             <span id="min">-170</span>
                             <input type="range" name="angle" id="angle" value=50>
                             <span id="max">170</span>
                         </div>
+                        
+                        <div class="timescale-select">
+                            <label for="timescale">Simulation Speed (applies to all pendulums):</label>
+                            <span class="sub-label" id="timescale-value">1.0x</span>
+                            <br>
+                            <span id="min">0.5x</span>
+                            <input type="range" name="time" id="time" value=50>
+                            <span id="max">2x</span>
+                        </div>
                         <br>
                         <button type="button" id="start">Start</button> 
-                        <button type="button" id="pause">Pause</button>
+                        <button type="button" id="pause" disabled>Pause</button>
+                        <button type="button" id="stop" disabled>Stop</button>
                     </div>
                 </section>
             </div> 
@@ -84,6 +86,8 @@
                 <section id="pendulum_simulations" class="simulation-panel">
                     <header>
                         <h3>Simulation Panel:</h3>
+                        <br>
+                        <label for="simulation" id = "simulating-indicator" style="color: #f5f5dc;">SIMULATING</label>
                     </header>
 
                     <div class="line" id="line1" style="left: 150px">

@@ -26,7 +26,7 @@ const pendulumAngleLabel = document.querySelector('#angle-value');
 
 //buttons
 const startButton = document.querySelector('#start');
-const resetButton = document.querySelector('#reset');
+const stopButton = document.querySelector('#stop');
 const pauseButton = document.querySelector('#pause');
 
 //pendulums
@@ -40,6 +40,10 @@ const pendulumLine4 = document.querySelector('#line4')
 const pendulumCircle4 = document.querySelector('#circle4')
 const pendulumLine5 = document.querySelector('#line5')
 const pendulumCircle5 = document.querySelector('#circle5')
+
+//variable to keep track of our simulation
+var simulating = false
+const simulationLabel = document.querySelector('#simulating-indicator')
 
 const updateColor = e => {
     const newColor = e.target.value;
@@ -64,62 +68,92 @@ const updateColor = e => {
 const updateLength = e => {
     const newLength = 50 + 150*(e.target.value/100);
     lengthLabel.innerText = newLength;
+    const post_params = {"length":newLength};
     if (pendulum1Select.checked) {
         pendulumCircle1.style.left = newLength + "px";
-        pendulumLine1.style.width = newLength + "px"; }
+        pendulumLine1.style.width = newLength + "px"; 
+        updateSimulation(8080, post_params)}
     if (pendulum2Select.checked) {
         pendulumCircle2.style.left = newLength + "px";
-        pendulumLine2.style.width = newLength + "px"; }
+        pendulumLine2.style.width = newLength + "px"; 
+        updateSimulation(8081, post_params)}
     if (pendulum3Select.checked) {
         pendulumCircle3.style.left = newLength + "px";
-        pendulumLine3.style.width = newLength + "px"; }
+        pendulumLine3.style.width = newLength + "px"; 
+        updateSimulation(8082, post_params)}
     if (pendulum4Select.checked) {
         pendulumCircle4.style.left = newLength + "px";
-        pendulumLine4.style.width = newLength + "px"; }
+        pendulumLine4.style.width = newLength + "px";
+        updateSimulation(8083, post_params)}
     if (pendulum5Select.checked) {
         pendulumCircle5.style.left = newLength + "px";
-        pendulumLine5.style.width = newLength + "px"; }
+        pendulumLine5.style.width = newLength + "px"; 
+        updateSimulation(8084, post_params)}
 }
 
 const updateWeight = e => {
     const newWeight = 20 + 30*(e.target.value/100);
     weightLabel.innerText = newWeight;
+    const post_params = {"weight":newWeight}
     if (pendulum1Select.checked) {
         pendulumCircle1.style.width = newWeight + "px";
         pendulumCircle1.style.height = newWeight + "px";
-        pendulumCircle1.style.top = (newWeight/-2)+1 + "px"; }
+        pendulumCircle1.style.top = (newWeight/-2)+1 + "px"; 
+        updateSimulation(8080, post_params)}
     if (pendulum2Select.checked) {
         pendulumCircle2.style.width = newWeight + "px";
         pendulumCircle2.style.height = newWeight + "px";
-        pendulumCircle2.style.top = (newWeight/-2)+1 + "px"; }
+        pendulumCircle2.style.top = (newWeight/-2)+1 + "px"; 
+        updateSimulation(8081, post_params)}
     if (pendulum3Select.checked) {
         pendulumCircle3.style.width = newWeight + "px";
         pendulumCircle3.style.height = newWeight + "px";
-        pendulumCircle3.style.top = (newWeight/-2)+1 + "px"; }
+        pendulumCircle3.style.top = (newWeight/-2)+1 + "px"; 
+        updateSimulation(8082, post_params)}
     if (pendulum4Select.checked) {
         pendulumCircle4.style.width = newWeight + "px";
         pendulumCircle4.style.height = newWeight + "px";
-        pendulumCircle4.style.top = (newWeight/-2)+1 + "px"; }
+        pendulumCircle4.style.top = (newWeight/-2)+1 + "px"; 
+        updateSimulation(8083, post_params)}
     if (pendulum5Select.checked) {
         pendulumCircle5.style.width = newWeight + "px";
         pendulumCircle5.style.height = newWeight + "px";
-        pendulumCircle5.style.top = (newWeight/-2)+1 + "px"; }
+        pendulumCircle5.style.top = (newWeight/-2)+1 + "px"; 
+        updateSimulation(8084, post_params)}
 }
 
 const updateTimeScale = e => {
     const newTimeScale = 0.5 + 1.5*(e.target.value/100);
-    timeScaleLabel.innerText = newTimeScale;
+    timeScaleLabel.innerText = newTimeScale + "x";
+    const post_params = {"timeScale":newTimeScale};
+    updateSimulation(8080, post_params);
+    updateSimulation(8081, post_params);
+    updateSimulation(8082, post_params);
+    updateSimulation(8083, post_params);
+    updateSimulation(8084, post_params);
 }
 
 const updateAngle = e => {
     const newAngle = -170 + 340*(e.target.value/100)
     pendulumAngleLabel.innerText = newAngle;
     const angleInDeg = (-1*newAngle)+90
-    if (pendulum1Select.checked) { updateAnglePendulum1(angleInDeg); }
-    if (pendulum2Select.checked) { updateAnglePendulum2(angleInDeg); }
-    if (pendulum3Select.checked) { updateAnglePendulum3(angleInDeg); }
-    if (pendulum4Select.checked) { updateAnglePendulum4(angleInDeg); }
-    if (pendulum5Select.checked) { updateAnglePendulum5(angleInDeg); }
+    const post_params = {"startAngle":angleInDeg, "angle":angleInDeg}
+    if (pendulum1Select.checked) { 
+        updateAnglePendulum1(angleInDeg); 
+        updateSimulation(8080, post_params)}
+    if (pendulum2Select.checked) {
+        updateAnglePendulum2(angleInDeg); 
+        updateSimulation(8081, post_params)}
+    if (pendulum3Select.checked) {
+        updateAnglePendulum3(angleInDeg);
+        updateSimulation(8082, post_params) }
+    if (pendulum4Select.checked) {
+        updateAnglePendulum4(angleInDeg);
+        updateSimulation(8083, post_params) }
+    if (pendulum5Select.checked) {
+        updateAnglePendulum5(angleInDeg); 
+        updateSimulation(8084, post_params)}
+
 }
 
 const updateAnglePendulum1 = newAngle => {
@@ -143,21 +177,99 @@ const updateAnglePendulum5 = newAngle => {
 }
 
 const onStart = () => {
-    console.log("Start sim.")
-    if (pendulum1Select.checked) { startPendulum1() }
-    if (pendulum2Select.checked) { startPendulum2() }
-    if (pendulum3Select.checked) { startPendulum3() }
-    if (pendulum4Select.checked) { startPendulum4() }
-    if (pendulum5Select.checked) { startPendulum5() }
+    simulating = true;
+    simulationLabel.innerText = "SIMULATING";
+    simulationLabel.style.color = "green";
+    pendulum1Select.disabled = true;
+    pendulum2Select.disabled = true;
+    pendulum3Select.disabled = true;
+    pendulum4Select.disabled = true;
+    pendulum5Select.disabled = true;
+    pendulumAngle.disabled = true;
+    pendulumLength.disabled = true;
+    pendulumWeight.disabled = true;
+    stopButton.disabled = false;
+    pauseButton.disabled = false;
+    startButton.disabled = true;
+
+    const post_params = {"simulating":true};
+    updateSimulation(8080, post_params);
+    updateSimulation(8081, post_params);
+    updateSimulation(8082, post_params);
+    updateSimulation(8083, post_params);
+    updateSimulation(8084, post_params);
+    console.log("Start sim.");
+    updatePendulums();
 }
 
 const onPause = () => {
-    console.log("Pause sim.")
-    if (pendulum1Select.checked) { pausePendulum1() }
-    if (pendulum2Select.checked) { pausePendulum2() }
-    if (pendulum3Select.checked) { pausePendulum3() }
-    if (pendulum4Select.checked) { pausePendulum4() }
-    if (pendulum5Select.checked) { pausePendulum5() }
+    simulating = false;
+    stopButton.disabled = false;
+    pauseButton.disabled = true;
+    startButton.disabled = false;
+    simulationLabel.innerText = "PAUSED";
+    simulationLabel.style.color = "gold";
+    const post_params = {"simulating":false};
+    updateSimulation(8080, post_params);
+    updateSimulation(8081, post_params);
+    updateSimulation(8082, post_params);
+    updateSimulation(8083, post_params);
+    updateSimulation(8084, post_params);
+    console.log("Pause sim.");
+}
+
+const onStop = () => {
+    simulating = false;
+    simulationLabel.style.color = "beige";
+    pendulum1Select.disabled = false;
+    pendulum2Select.disabled = false;
+    pendulum3Select.disabled = false;
+    pendulum4Select.disabled = false;
+    pendulum5Select.disabled = false;
+    pendulumAngle.disabled = false;
+    pendulumLength.disabled = false;
+    pendulumWeight.disabled = false;
+    stopButton.disabled = true;
+    pauseButton.disabled = true;
+    startButton.disabled = false;
+
+    getInitialProperties(8080).then(function(initial_params){
+        initial_params["simulating"] = false;
+        initial_params["angularVelocity"] = 0;
+        initial_params["angle"] = initial_params["startAngle"];
+        console.log(initial_params);
+        updateSimulation(8080, initial_params);
+    });
+    getInitialProperties(8081).then(function(initial_params){
+        initial_params["simulating"] = false;
+        initial_params["angularVelocity"] = 0;
+        initial_params["angle"] = initial_params["startAngle"];
+        console.log(initial_params);
+        updateSimulation(8081, initial_params);
+    });
+    getInitialProperties(8082).then(function(initial_params){
+        initial_params["simulating"] = false;
+        initial_params["angularVelocity"] = 0;
+        initial_params["angle"] = initial_params["startAngle"];
+        console.log(initial_params);
+        updateSimulation(8082, initial_params);
+    });
+    getInitialProperties(8083).then(function(initial_params){
+        initial_params["simulating"] = false;
+        initial_params["angularVelocity"] = 0;
+        initial_params["angle"] = initial_params["startAngle"];
+        console.log(initial_params);
+        updateSimulation(8083, initial_params);
+    });
+    getInitialProperties(8084).then(function(initial_params){
+        initial_params["simulating"] = false;
+        initial_params["angularVelocity"] = 0;
+        initial_params["angle"] = initial_params["startAngle"];
+        console.log(initial_params);
+        updateSimulation(8084, initial_params);
+    });
+
+    console.log("Stop sim.");
 }
 
 const addEventListeners = () => {
@@ -168,18 +280,44 @@ const addEventListeners = () => {
     simulationTimeScale.addEventListener('change', updateTimeScale)
     startButton.addEventListener('click', onStart)
     pauseButton.addEventListener('click', onPause)
+    stopButton.addEventListener('click', onStop)
 };
 
-addEventListeners();
-
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-
-const pollPendulumRotations = async () => {
-    const response = await fetch('http://example.com/movies.json');
-    const myJson = await response.json();
-    console.log(myJson);
-    sleep(100); //10 refreshes per second
-    pollPendulumRotations();
+const updatePendulums = () => {
+    if (simulating) { 
+        updateAnglePendulum1(getProperties(8080).then(function(properties) { return properties.angle; }));
+        updateAnglePendulum2(getProperties(8081).then(function(properties) { return properties.angle; }));
+        updateAnglePendulum3(getProperties(8082).then(function(properties) { return properties.angle; }));
+        updateAnglePendulum4(getProperties(8083).then(function(properties) { return properties.angle; }));
+        updateAnglePendulum5(getProperties(8084).then(function(properties) { return properties.angle; }));
+        setTimeout(() => { updatePendulums(); }, 100); }
 }
 
-pollPendulumRotations();
+const getProperties = async port => {
+    const response = await fetch('http://localhost:'+port+'/properties');
+    const myJson = await response.json(); //extract JSON from the http response
+    console.log(myJson);
+    return myJson;
+}
+
+const getInitialProperties = async port => {
+    const response = await fetch('http://localhost:'+port+'/initial_properties');
+    const myJson = await response.json(); //extract JSON from the http response
+    console.log(myJson);
+    return myJson;
+}
+
+const updateSimulation = async (port, args) => {
+    const msg = JSON.stringify(args);
+    const response = await fetch('http://localhost:' + port + '/update', {
+      method: 'POST',
+      mode:'cors',
+      body: msg, // string or object
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
+addEventListeners();
