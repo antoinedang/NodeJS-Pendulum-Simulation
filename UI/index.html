@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="vention.ico" />
+    <title>Vention Internship Project</title>
+
+    <link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <main>
+        <div style="width: 100%; overflow: hidden;">
+            <div style="width: 30%; float: left;">
+                <h1>Pendulums for Vention</h1>
+                <h2>Antoine Dangeard</h2>
+                <section id="pendulum_settings" class="settings-panel">
+                    <header>
+                        <h3>Configuration Panel:</h3>
+                    </header>
+
+                    <div class="setting">
+                        <label for="pendulums">Select pendulum(s) to adjust: (numbered left to right)</label>
+                        <br>
+                        <div class="pendulum-select">
+                            <input type="checkbox" name="pendulum1" id="pendulum1" value=0>1 (rightmost)
+                            <input type="checkbox" name="pendulum2" id="pendulum2" value=0>2
+                            <input type="checkbox" name="pendulum3" id="pendulum3" value=0>3
+                            <input type="checkbox" name="pendulum4" id="pendulum4" value=0>4
+                            <input type="checkbox" name="pendulum5" id="pendulum5" value=0>5 (leftmost)
+                        </div>
+                        <div class="color-select">
+                            <label for="color">Color Select:</label>
+                            <span class="color-value" id="color-value">#dea764</span>
+                            <br>
+                            <input type="color" id="color" value="#dea764">
+                        </div>
+                        <div class="length-select">
+                            <label for="length">Length:</label>
+                            <span class="sub-label" id="length-value">100</span>
+                            <br>
+                            <span id="min">50</span>
+                            <input type="range" name="length" id="length" value=50>
+                            <span id="max">200</span>
+                        </div>
+                        <div class="weight-select">
+                            <label for="weight">Weight:</label>
+                            <span class="sub-label" id="weight-value">35</span>
+                            <br>
+                            <span id="min">20</span>
+                            <input type="range" name="weight" id="weight" value=50>
+                            <span id="max">50</span>
+                        </div>
+                        <div class="timescale-select">
+                            <label for="timescale">Simulation Time Scale:</label>
+                            <span class="sub-label" id="timescale-value">1.0</span>
+                            <br>
+                            <span id="min">0.5</span>
+                            <input type="range" name="time" id="time" value=50>
+                            <span id="max">2</span>
+                        </div>
+                        
+                        <div class="start-angle-select">
+                            <label for="angle">Angle:</label>
+                            <span class="sub-label" id="angle-value">0.0</span>
+                            <br>
+                            <span id="min">-170</span>
+                            <input type="range" name="angle" id="angle" value=50>
+                            <span id="max">170</span>
+                        </div>
+                        <br>
+                        <button type="button" id="start">Start</button> 
+                        <button type="button" id="pause">Pause</button>
+                    </div>
+                </section>
+            </div> 
+            
+            <div style="margin-left: 30%;">
+                <section id="pendulum_simulations" class="simulation-panel">
+                    <header>
+                        <h3>Simulation Panel:</h3>
+                    </header>
+
+                    <div class="line" id="line1" style="left: 150px">
+                        <div class="circle" id="circle1"></div>
+                    </div>
+
+                    
+                    <div class="line" id="line2" style="left: 287px">
+                        <div class="circle" id="circle2"></div>
+                    </div>
+
+                    
+                    <div class="line" id="line3" style="left: 425px">
+                        <div class="circle" id="circle3"></div>
+                    </div>
+
+                    
+                    <div class="line" id="line4" style="left: 563px">
+                        <div class="circle" id="circle4"></div>
+                    </div>
+
+                    
+                    <div class="line" id="line5" style="left: 700px">
+                        <div class="circle" id="circle5"></div>
+                    </div>
+
+
+                </section>
+            </div>
+        </div>
+    </main>
+    <script src="UI.js"></script>
+</body>
+
+</html>
