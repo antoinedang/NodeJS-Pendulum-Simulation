@@ -136,8 +136,8 @@ const updateTimeScale = e => {
 const updateAngle = e => {
     const newAngle = -170 + 340*(e.target.value/100)
     pendulumAngleLabel.innerText = newAngle;
+    const post_params = {"startAngle":newAngle, "angle":newAngle}
     const angleInDeg = (-1*newAngle)+90
-    const post_params = {"startAngle":angleInDeg, "angle":angleInDeg}
     if (pendulum1Select.checked) { 
         updateAnglePendulum1(angleInDeg); 
         updateSimulation(8080, post_params)}
@@ -237,6 +237,7 @@ const onStop = () => {
         initial_params["simulating"] = false;
         initial_params["angularVelocity"] = 0;
         initial_params["angle"] = initial_params["startAngle"];
+        updateAnglePendulum1((-1*initial_params.angle)+90);
         console.log(initial_params);
         updateSimulation(8080, initial_params);
     });
@@ -244,6 +245,7 @@ const onStop = () => {
         initial_params["simulating"] = false;
         initial_params["angularVelocity"] = 0;
         initial_params["angle"] = initial_params["startAngle"];
+        updateAnglePendulum2((-1*initial_params.angle)+90);
         console.log(initial_params);
         updateSimulation(8081, initial_params);
     });
@@ -251,6 +253,7 @@ const onStop = () => {
         initial_params["simulating"] = false;
         initial_params["angularVelocity"] = 0;
         initial_params["angle"] = initial_params["startAngle"];
+        updateAnglePendulum3((-1*initial_params.angle)+90);
         console.log(initial_params);
         updateSimulation(8082, initial_params);
     });
@@ -258,6 +261,7 @@ const onStop = () => {
         initial_params["simulating"] = false;
         initial_params["angularVelocity"] = 0;
         initial_params["angle"] = initial_params["startAngle"];
+        updateAnglePendulum4((-1*initial_params.angle)+90);
         console.log(initial_params);
         updateSimulation(8083, initial_params);
     });
@@ -265,6 +269,7 @@ const onStop = () => {
         initial_params["simulating"] = false;
         initial_params["angularVelocity"] = 0;
         initial_params["angle"] = initial_params["startAngle"];
+        updateAnglePendulum5((-1*initial_params.angle)+90);
         console.log(initial_params);
         updateSimulation(8084, initial_params);
     });
@@ -285,18 +290,18 @@ const addEventListeners = () => {
 
 const updatePendulums = () => {
     if (simulating) { 
-        updateAnglePendulum1(getProperties(8080).then(function(properties) { return properties.angle; }));
-        updateAnglePendulum2(getProperties(8081).then(function(properties) { return properties.angle; }));
-        updateAnglePendulum3(getProperties(8082).then(function(properties) { return properties.angle; }));
-        updateAnglePendulum4(getProperties(8083).then(function(properties) { return properties.angle; }));
-        updateAnglePendulum5(getProperties(8084).then(function(properties) { return properties.angle; }));
-        setTimeout(() => { updatePendulums(); }, 100); }
+        console.log("update pendulums");
+        getProperties(8080).then(function(properties) { updateAnglePendulum1((-1*properties.angle)+90); });
+        getProperties(8081).then(function(properties) { updateAnglePendulum2((-1*properties.angle)+90); });
+        getProperties(8082).then(function(properties) { updateAnglePendulum3((-1*properties.angle)+90); });
+        getProperties(8083).then(function(properties) { updateAnglePendulum4((-1*properties.angle)+90); });
+        getProperties(8084).then(function(properties) { updateAnglePendulum5((-1*properties.angle)+90); });
+        setTimeout(() => { updatePendulums(); }, 50); }
 }
 
 const getProperties = async port => {
     const response = await fetch('http://localhost:'+port+'/properties');
     const myJson = await response.json(); //extract JSON from the http response
-    console.log(myJson);
     return myJson;
 }
 
