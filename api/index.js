@@ -10,7 +10,7 @@ app.listen(PORT, () => console.log(`Running API on http://localhost:${PORT}`))
 
 var gravity = 9.81
 
-var angularDamping = 0.05
+var angularDamping = 0.3
 
 var simulationProperties = {
     "simulating":false,
@@ -77,7 +77,11 @@ const simulate = () => {
         const timeInterval = 0.05; //in seconds
         const scaledTimeInterval = timeInterval*simulationProperties.timeScale;
         var angularAcceleration = (-1*gravity*Math.sin(toRadians(simulationProperties.angle)))/simulationInitialProperties.length;
-        angularAcceleration = angularAcceleration*simulationInitialProperties.weight*(1.0-angularDamping);
+        angularAcceleration = angularAcceleration*simulationInitialProperties.weight;
+        //only dampen on accelerations which increase our overall energy
+        if (Math.abs(simulationProperties.angularVelocity) < (simulationProperties.angularVelocity + (angularAcceleration*scaledTimeInterval))) {
+            angularAcceleration = angularAcceleration*(1.0-angularDamping);
+        }
         simulationProperties.angularVelocity = simulationProperties.angularVelocity + (angularAcceleration*scaledTimeInterval);
         simulationProperties.angle =  simulationProperties.angle + simulationProperties.angularVelocity;
         setTimeout(() => { simulate(); }, 1000*timeInterval); }
